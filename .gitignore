@@ -1,0 +1,23 @@
+# Dependencies and local checks
+node_modules/
+**/test-results/
+**/.workflow-archives/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# Original local research and hosted Site checkout are retained on disk.
+# Curated, portable copies live in docs/ and demos/.
+/assets/
+/output/
+/research/
+/sites/
+
+# Never import nested repository metadata or deployment credentials.
+**/.openai/
+**/.sites-runtime/
+**/.sites-checkout/
+__pycache__/
+*.pyc

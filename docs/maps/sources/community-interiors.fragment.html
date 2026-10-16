@@ -1,0 +1,171 @@
+<div id="rongshu-interior-plans">
+  <style>
+    #rongshu-interior-plans { color: var(--foreground); }
+    #rongshu-interior-plans .interior-title { padding-right: 90px; margin-bottom: 16px; }
+    #rongshu-interior-plans h2 { margin: 0 0 4px; }
+    #rongshu-interior-plans .plan-breadcrumb { margin: 12px 0; }
+    #rongshu-interior-plans .floor-plan { position: relative; width: 100%; }
+    #rongshu-interior-plans .floor-plan > svg { display: block; width: 100%; height: 100%; }
+    #rongshu-interior-plans .floor-plan svg text { fill: var(--foreground); font-size: 12px; font-weight: 400; }
+    #rongshu-interior-plans .room-label { position: absolute; transform: translate(-50%,-50%); }
+    #rongshu-interior-plans .plan-legend { display: flex; flex-wrap: wrap; gap: 9px 20px; margin: 8px 0 14px; }
+    #rongshu-interior-plans .legend-part { display: inline-flex; gap: 7px; align-items: center; }
+    #rongshu-interior-plans .swatch { width: 13px; height: 13px; background: color-mix(in srgb,var(--viz-series-1) 13%,transparent); border: 1px solid var(--border); }
+    #rongshu-interior-plans .swatch.later { background: var(--muted); }
+    #rongshu-interior-plans .door-swatch { width: 23px; height: 4px; border-left: 6px solid var(--muted-foreground); border-right: 6px solid var(--muted-foreground); }
+    #rongshu-interior-plans .room-detail { border-top: 1px solid var(--border); padding-top: 13px; }
+    #rongshu-interior-plans .room-title { font-weight: 500; margin-bottom: 8px; }
+    #rongshu-interior-plans dl { display: grid; grid-template-columns: 46px 1fr; gap: 6px 10px; margin: 0; }
+    #rongshu-interior-plans dt { color: var(--muted-foreground); }
+    #rongshu-interior-plans dd { margin: 0; overflow-wrap: anywhere; }
+  </style>
+  <div class="interior-title">
+    <h2>室内场景布局</h2>
+    <span class="text-small text-muted">榕树里社区 · 平面分区草案 · 非比例示意</span>
+  </div>
+  <div class="viz-controls">
+    <label class="form-label">建筑
+      <select class="form-select" aria-label="选择室内建筑">
+        <option value="home">我家</option>
+        <option value="store">便利店</option>
+        <option value="center">活动中心</option>
+      </select>
+    </label>
+  </div>
+  <div class="plan-breadcrumb text-small text-muted"></div>
+  <div class="floor-plan">
+    <svg class="floor-diagram" role="img" aria-labelledby="interior-plan-title interior-plan-desc">
+      <title id="interior-plan-title">室内房间与入口</title>
+      <desc id="interior-plan-desc">切换建筑查看房间与开放分区。蓝色主题浅填充表示首版互动，灰色表示后续增加互动。墙上的缺口表示房门。点选房间查看物品、事件与成长内容。</desc>
+    </svg>
+    <div class="room-labels"></div>
+  </div>
+  <div class="plan-legend text-small">
+    <span class="legend-part"><span class="swatch" aria-hidden="true"></span>首版互动</span>
+    <span class="legend-part"><span class="swatch later" aria-hidden="true"></span>后续增加互动</span>
+    <span class="legend-part"><span class="door-swatch" aria-hidden="true"></span>房门缺口</span>
+  </div>
+  <section class="room-detail" aria-live="polite" aria-atomic="true">
+    <div class="room-title"></div>
+    <dl>
+      <dt>物品</dt><dd data-field="objects"></dd>
+      <dt>事件</dt><dd data-field="events"></dd>
+      <dt>成长</dt><dd data-field="growth"></dd>
+    </dl>
+  </section>
+  <script>
+    (()=>{
+      const root=document.getElementById('rongshu-interior-plans');
+      const select=root.querySelector('select');
+      const stage=root.querySelector('.floor-plan');
+      const svg=root.querySelector('.floor-diagram');
+      const labels=root.querySelector('.room-labels');
+      const plans={
+        home:{name:'我家',outside:'西侧住宅区',entryX:.34,entryLabel:'通往社区住宅区',start:'living',rooms:[
+          {id:'bedroom',name:'卧室',box:[0,0,.42,.37],first:true,kind:'bed',objects:'衣柜、床头照片、玩具或兴趣收藏',events:'整理行李 · 挑选衣物 · 保存朋友送的纪念品',growth:'认识与分类 → 描述喜好 → 整理个人生活'},
+          {id:'study',name:'书房',box:[.42,0,.58,.37],first:false,kind:'desk',objects:'书桌、电脑、书架、作品墙',events:'阅读朋友的消息 · 写邀请卡 · 准备活动方案',growth:'图画与短句 → 清单和消息 → 资料阅读与写作'},
+          {id:'living',name:'客厅',box:[0,.37,.65,.48],first:true,kind:'sofa',objects:'沙发、家庭照片、电话、日历',events:'认识家人 · 接待朋友 · 商量周末安排',growth:'称呼与问候 → 时间与邀请 → 讨论和解释'},
+          {id:'kitchen',name:'餐厨区',box:[.65,.37,.35,.28],first:false,kind:'counter',objects:'冰箱、餐具、食材、餐桌',events:'准备早餐 · 分享食物 · 安排聚会菜单',growth:'食物与数量 → 步骤说明 → 兼顾不同偏好'},
+          {id:'bath',name:'洗漱间',box:[.65,.65,.35,.20],first:false,kind:'sink',objects:'洗手台、镜子、毛巾、洗漱用品',events:'整理用品 · 理解生活步骤 · 为出门做准备',growth:'物品与动作 → 顺序 → 独立安排日常'},
+          {id:'entry',name:'玄关',box:[0,.85,1,.15],first:true,kind:'none',objects:'鞋柜、门铃、挂钩、外出物品',events:'迎接来访 · 准备出门 · 收到活动邀请',growth:'进出与方位 → 检查清单 → 安排出行'}
+        ],doors:[['h',.20,.37],['h',.53,.37],['v',.65,.51],['v',.65,.75],['h',.34,.85]],note:'住宅房间 · 缺口为室内通路'},
+        store:{name:'便利店',outside:'社区商业街',entryX:.33,entryLabel:'通往社区商业街',start:'shelves',rooms:[
+          {id:'cold',name:'冷藏区',box:[0,0,.65,.24],first:false,kind:'fridge',open:true,objects:'饮料、牛奶、标签、保鲜柜',events:'寻找指定商品 · 比较口味 · 根据需求换商品',growth:'辨认物品 → 比较与选择 → 理解标签'},
+          {id:'stock',name:'备货间',box:[.65,0,.35,.24],first:false,kind:'boxes',objects:'货箱、库存表、活动预留物资',events:'店主带领取货 · 核对物资 · 为社区活动备料',growth:'数量与位置 → 清单核对 → 解释短缺与调整'},
+          {id:'shelves',name:'货架区',box:[0,.24,.65,.56],first:true,kind:'shelves',open:true,objects:'食品、文具、价签、购物清单',events:'按清单找物 · 询问位置 · 缺货后寻找替代品',growth:'物品与颜色 → 数量和价格 → 比较与说明理由'},
+          {id:'checkout',name:'收银区',box:[.65,.24,.35,.56],first:true,kind:'checkout',open:true,objects:'收银台、购物篮、收据、店主',events:'表达购买需求 · 核对商品 · 商量换货',growth:'我要和谢谢 → 询问与确认 → 解释问题与协商'},
+          {id:'entrance',name:'入口区',box:[0,.80,1,.20],first:true,kind:'none',open:true,objects:'营业牌、公告、购物篮、促销海报',events:'查看营业时间 · 领取购物篮 · 得知社区新消息',growth:'标识与动作 → 时间与通知 → 理解简短信息'}
+        ],doors:[['h',.83,.24]],note:'营业区开放相连 · 备货间由店主带领进入'},
+        center:{name:'活动中心',outside:'北侧公共活动区',entryX:.35,entryLabel:'通往北侧公共活动区',start:'main',rooms:[
+          {id:'main',name:'活动室',box:[0,0,.66,.74],first:true,kind:'workshop',objects:'活动桌、作品架、材料、展示墙',events:'一起做手工 · 准备集市招牌 · 完成小组作品',growth:'跟随指令 → 分工合作 → 策划与组织'},
+          {id:'meeting',name:'讨论室',box:[.66,0,.34,.42],first:false,kind:'meeting',objects:'讨论桌、白板、日历、活动计划',events:'兴趣小组见面 · 讨论分歧 · 商量活动方案',growth:'表达选择 → 说明理由 → 协商与说服'},
+          {id:'storage',name:'器材间',box:[.66,.42,.34,.32],first:false,kind:'boxes',objects:'工具架、分类箱、借还记录',events:'寻找材料 · 借还工具 · 清点活动物资',growth:'物品与方位 → 分类和数量 → 责任与流程说明'},
+          {id:'foyer',name:'门厅',box:[0,.74,1,.26],first:true,kind:'notice',objects:'报名台、公告板、活动照片、组织者',events:'了解活动 · 报名参加 · 领取当天任务',growth:'问候与姓名 → 询问信息 → 介绍计划'}
+        ],doors:[['h',.32,.74],['v',.66,.23],['v',.66,.58]],note:'公共门厅连接活动室 · 其他房间按故事展开'}
+      };
+      const saved=window.openai?.widgetState?.modelContent;
+      let building=plans[saved?.building]?saved.building:'home';
+      let room=plans[building].rooms.some(r=>r.id===saved?.room)?saved.room:plans[building].start;
+      const ns='http://www.w3.org/2000/svg';
+      function shape(tag,attrs,parent=svg){const el=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))el.setAttribute(k,String(v));parent.appendChild(el);return el;}
+      function txt(x,y,value,attrs={}){const el=shape('text',{x,y,'text-anchor':'middle',...attrs});el.textContent=value;return el;}
+      function detail(){
+        const plan=plans[building],item=plan.rooms.find(r=>r.id===room);
+        root.querySelector('.plan-breadcrumb').textContent=`社区地图 → ${plan.outside} → ${plan.name} → ${item.name}`;
+        root.querySelector('.room-title').textContent=`${item.name} · ${item.first?'首版互动':'后续增加互动'}`;
+        for(const key of ['objects','events','growth'])root.querySelector(`[data-field="${key}"]`).textContent=item[key];
+        for(const b of labels.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.room===room));
+      }
+      function remember(){window.openai?.setWidgetState?.({modelContent:{building,buildingName:plans[building].name,room,roomName:plans[building].rooms.find(r=>r.id===room).name},privateContent:null})?.catch(()=>{});}
+      function draw(){
+        const width=stage.clientWidth;if(width<1)return;
+        const compact=width<520;
+        const height=compact?500:460;
+        const ox=8,oy=10,fw=width-16,fh=height-76;
+        stage.style.height=height+'px';svg.setAttribute('viewBox',`0 0 ${width} ${height}`);
+        for(const el of [...svg.children])if(!['title','desc'].includes(el.tagName))el.remove();
+        labels.replaceChildren();select.value=building;
+        const plan=plans[building];
+        const X=v=>ox+fw*v,Y=v=>oy+fh*v;
+        for(const r of plan.rooms){
+          const [rx,ry,rw,rh]=r.box,x=X(rx),y=Y(ry),w=fw*rw,h=fh*rh;
+          const bg=r.first?'color-mix(in srgb,var(--viz-series-1) 11%,var(--background))':'var(--muted)';
+          shape('rect',{x,y,width:w,height:h,fill:bg,stroke:r.open?'var(--border)':'var(--muted-foreground)','stroke-width':r.open?1:1.6});
+          const wrap=document.createElement('div');wrap.className='room-label';wrap.style.left=(x+w/2)+'px';wrap.style.top=(y+26)+'px';
+          const btn=document.createElement('button');btn.type='button';btn.className='btn';btn.textContent=r.name;btn.dataset.room=r.id;
+          btn.setAttribute('aria-label',`查看${r.name}的互动与事件`);
+          btn.addEventListener('click',()=>{room=r.id;detail();remember();});wrap.appendChild(btn);labels.appendChild(wrap);
+          const furniture={fill:'color-mix(in srgb,var(--foreground) 9%,transparent)',stroke:'var(--border)','stroke-width':1};
+          const fy=y+53,avail=h-63;
+          const rect=(a,b,c,d,extra={})=>shape('rect',{x:a,y:b,width:Math.max(4,c),height:Math.max(4,d),rx:3,...furniture,...extra});
+          if(r.kind==='bed'){
+            rect(x+12,fy,Math.min(w*.44,74),Math.min(avail,70));rect(x+18,fy+6,Math.min(w*.44-12,62),12);
+            rect(x+w-30,fy,18,Math.min(avail,65));
+          }else if(r.kind==='desk'){
+            rect(x+12,fy,w*.48,24);rect(x+20,fy+30,22,15);rect(x+w-30,fy,18,Math.min(avail,65));
+          }else if(r.kind==='sofa'){
+            const sw=Math.min(w*.52,130);rect(x+14,fy+12,sw,38);rect(x+23,fy+18,sw-18,22);
+            rect(x+w*.34,fy+70,Math.min(w*.33,75),28);rect(x+w-32,fy+12,18,60);
+          }else if(r.kind==='counter'){
+            rect(x+10,fy,w-20,18);if(avail>42)rect(x+w*.25,fy+30,w*.5,20);
+          }else if(r.kind==='sink'){
+            rect(x+10,fy,w*.38,15);rect(x+w*.65,fy,w*.25,15);
+          }else if(r.kind==='fridge'){
+            for(let i=0;i<3;i++)rect(x+10+i*(w-20)/3,fy,(w-30)/3,Math.min(avail,24));
+          }else if(r.kind==='shelves'){
+            for(let row=0;row<2;row++)for(let col=0;col<2;col++)rect(x+14+col*(w*.48),fy+row*60,w*.32,30);
+          }else if(r.kind==='checkout'){
+            rect(x+w*.15,fy,w*.7,30);rect(x+w*.44,fy+5,w*.25,14);rect(x+w*.2,fy+75,w*.6,25);
+          }else if(r.kind==='boxes'){
+            for(let i=0;i<2;i++)rect(x+10+i*(w*.45),fy,w*.32,Math.min(avail,25));
+          }else if(r.kind==='workshop'){
+            for(let row=0;row<2;row++)for(let col=0;col<2;col++)rect(x+16+col*w*.48,fy+row*85,w*.30,42);
+            rect(x+12,y+h-34,w-24,16);
+          }else if(r.kind==='meeting'){
+            rect(x+w*.18,fy,w*.64,34);rect(x+12,y+h-25,w-24,12);
+          }else if(r.kind==='notice'){
+            rect(x+14,fy,Math.min(w*.24,120),20);rect(x+w*.68,fy,w*.22,20);
+          }
+        }
+        for(const [direction,x,y]of plan.doors){
+          const d=compact?22:30;
+          shape('line',{x1:X(x)-(direction==='h'?d/2:0),y1:Y(y)-(direction==='v'?d/2:0),x2:X(x)+(direction==='h'?d/2:0),y2:Y(y)+(direction==='v'?d/2:0),stroke:'var(--background)','stroke-width':5});
+        }
+        shape('rect',{x:ox,y:oy,width:fw,height:fh,fill:'none',stroke:'var(--foreground)','stroke-width':2});
+        const ex=X(plan.entryX),ey=Y(1),gap=compact?30:40;
+        shape('line',{x1:ex-gap/2,y1:ey,x2:ex+gap/2,y2:ey,stroke:'var(--background)','stroke-width':5});
+        shape('line',{x1:ex,y1:ey+4,x2:ex,y2:ey+19,stroke:'var(--muted-foreground)','stroke-width':1.5});
+        txt(ex,ey+34,`↓ ${plan.entryLabel}`);
+        txt(width/2,height-5,plan.note,{opacity:.8});
+        detail();
+      }
+      select.addEventListener('change',()=>{building=select.value;room=plans[building].start;draw();remember();});
+      new ResizeObserver(draw).observe(stage);
+      window.addEventListener('openai:set_globals',event=>{
+        const value=event.detail?.globals?.widgetState?.modelContent;
+        if(plans[value?.building]){building=value.building;room=plans[building].rooms.some(r=>r.id===value.room)?value.room:plans[building].start;draw();}
+      });
+      draw();
+    })();
+  </script>
+</div>

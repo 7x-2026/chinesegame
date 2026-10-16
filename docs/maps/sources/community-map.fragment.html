@@ -1,0 +1,170 @@
+<div id="rongshu-community-map">
+  <style>
+    #rongshu-community-map { color: var(--foreground); }
+    #rongshu-community-map .map-heading { margin-bottom: 8px; padding-right: 90px; }
+    #rongshu-community-map .map-heading h2 { margin: 0 0 4px; }
+    #rongshu-community-map .map-stage { position: relative; width: 100%; }
+    #rongshu-community-map .map-stage > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    #rongshu-community-map .map-stage svg text { fill: var(--foreground); font-size: 12px; font-weight: 400; }
+    #rongshu-community-map .map-label { position: absolute; transform: translate(-50%, -50%); display: flex; justify-content: center; }
+    #rongshu-community-map .map-label .btn { white-space: nowrap; }
+    #rongshu-community-map .map-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin: 8px 0 16px; }
+    #rongshu-community-map .legend-item { display: inline-flex; align-items: center; gap: 7px; }
+    #rongshu-community-map .legend-square { width: 13px; height: 13px; background: color-mix(in srgb, var(--viz-series-1) 17%, transparent); border: 1px solid var(--border); }
+    #rongshu-community-map .legend-square.future { background: var(--muted); border-style: dashed; }
+    #rongshu-community-map .legend-road { width: 22px; height: 0; border-top: 2px solid var(--muted-foreground); }
+    #rongshu-community-map .map-detail { border-top: 1px solid var(--border); padding-top: 13px; }
+    #rongshu-community-map .detail-title { font-weight: 500; margin-bottom: 7px; }
+    #rongshu-community-map dl { display: grid; grid-template-columns: 46px 1fr; gap: 5px 10px; margin: 0; }
+    #rongshu-community-map dt { color: var(--muted-foreground); }
+    #rongshu-community-map dd { margin: 0; overflow-wrap: anywhere; }
+  </style>
+  <div class="map-heading">
+    <h2>榕树里社区</h2>
+    <span class="text-small text-muted">地图草案 · 步行社区 · 非比例示意</span>
+  </div>
+  <div class="map-stage" aria-label="社区布局及可选择地点">
+    <svg class="community-plan" role="img" aria-labelledby="community-map-title community-map-desc">
+      <title id="community-map-title">榕树里社区平面地图</title>
+      <desc id="community-map-desc">北侧为学校、运动场、图书馆和活动中心；西侧为住宅与邻里院子；中部为便利店、小餐馆和中心广场；东南侧为公园与社区花园；南侧公交站通向外部城市。两条步行环线在中心广场连接。下方地点按钮可以查看人物和事件。</desc>
+    </svg>
+    <div class="location-labels"></div>
+  </div>
+  <div class="map-legend text-small" aria-label="图例">
+    <span class="legend-item"><span class="legend-square" aria-hidden="true"></span>首版开放</span>
+    <span class="legend-item"><span class="legend-square future" aria-hidden="true"></span>后续开放</span>
+    <span class="legend-item"><span class="legend-road" aria-hidden="true"></span>步行连接</span>
+  </div>
+  <section class="map-detail" aria-live="polite" aria-atomic="true">
+    <div class="detail-title"></div>
+    <dl>
+      <dt>人物</dt><dd data-detail="people"></dd>
+      <dt>事件</dt><dd data-detail="events"></dd>
+      <dt>成长</dt><dd data-detail="growth"></dd>
+    </dl>
+  </section>
+  <script>
+    (() => {
+      const root = document.getElementById('rongshu-community-map');
+      const stage = root.querySelector('.map-stage');
+      const svg = root.querySelector('.community-plan');
+      const labels = root.querySelector('.location-labels');
+      const data = [
+        { id:'school', name:'学校', phase:2, zone:'学习生活', desktop:[.15,90], mobile:[.18,85], people:'老师、同学、社团伙伴', events:'新同学到来 · 小组作品 · 社团与校园活动', growth:'幼儿适应集体 → 小学合作 → 中学社团与自我表达' },
+        { id:'sports', name:'运动场', phase:2, zone:'集体活动', desktop:[.37,90], mobile:[.18,190], people:'同龄朋友、活动指导者', events:'加入游戏 · 讨论规则 · 筹办友谊赛', growth:'轮流与动作 → 理解规则 → 分工和协调' },
+        { id:'library', name:'图书馆', phase:2, zone:'阅读探索', desktop:[.64,90], mobile:[.82,85], people:'管理员、阅读伙伴、邻居', events:'找书 · 寻找旧照片线索 · 制作社区故事集', growth:'图画与标签 → 短文与消息 → 资料整理与创作' },
+        { id:'center', name:'活动中心', phase:1, zone:'公共活动', desktop:[.86,90], mobile:[.82,190], people:'社区组织者、伙伴、志愿者', events:'手工活动 · 兴趣小组 · 社区集市', growth:'跟随参与 → 合作完成 → 策划与组织' },
+        { id:'courtyard', name:'邻里院子', phase:2, zone:'邻里生活', desktop:[.15,250], mobile:[.18,310], people:'邻居、家人、同龄朋友', events:'认识邻居 · 物品分享 · 解决公共空间的小分歧', growth:'打招呼与分享 → 请求帮助 → 理解不同意见' },
+        { id:'store', name:'便利店', phase:1, zone:'日常商业', desktop:[.38,250], mobile:[.5,310], people:'店主、帮忙的朋友、邻居顾客', events:'按清单购物 · 缺货后换方案 · 为活动备料', growth:'认识物品 → 询问数量和价格 → 比较与协商' },
+        { id:'restaurant', name:'小餐馆', phase:2, zone:'饮食交流', desktop:[.85,250], mobile:[.82,310], people:'餐馆经营者、家人、朋友', events:'点餐 · 了解饮食偏好 · 为聚会商量菜单', growth:'表达喜欢 → 提出需求 → 兼顾不同人的选择' },
+        { id:'home', name:'我家', phase:1, zone:'生活起点', desktop:[.15,420], mobile:[.18,440], people:'家人、来访的朋友', events:'整理新家 · 制作邀请卡 · 留下共同回忆', growth:'认识身边 → 安排日常 → 独立计划生活' },
+        { id:'square', name:'中心广场', phase:1, zone:'社区中心', desktop:[.61,350], mobile:[.5,440], people:'朋友、邻居、社区组织者', events:'邻里见面 · 失物公告 · 集市与节庆', growth:'认识邻居 → 参与公共活动 → 组织与协调' },
+        { id:'park', name:'公园', phase:1, zone:'户外交往', desktop:[.85,420], mobile:[.82,440], people:'玩耍的伙伴、遛宠物的邻居', events:'寻找小狗 · 约朋友野餐 · 雨天调整计划', growth:'动作与方位 → 邀请和规则 → 协商与解决问题' },
+        { id:'gate', name:'公交站', phase:2, zone:'对外入口', desktop:[.43,545], mobile:[.5,575], people:'家人、邻居、等车的朋友', events:'搬来社区 · 接朋友 · 查看路线与外出计划', growth:'认识方向 → 询问时间 → 比较路线与安排出行' },
+        { id:'garden', name:'社区花园', phase:2, zone:'长期合作', desktop:[.85,545], mobile:[.82,575], people:'擅长种植的邻居、志愿者、小组伙伴', events:'照顾植物 · 分配工具 · 改造闲置角落', growth:'观察与命名 → 持续照料 → 制订方案与承担责任' }
+      ];
+      const knownIds = new Set(data.map(d=>d.id));
+      const initial = window.openai?.widgetState;
+      let selected = knownIds.has(initial?.modelContent?.selectedLocation) ? initial.modelContent.selectedLocation : 'square';
+      const ns = 'http://www.w3.org/2000/svg';
+      function mark(tag,attrs,parent=svg) {
+        const el=document.createElementNS(ns,tag);
+        for(const [key,val] of Object.entries(attrs)) el.setAttribute(key,String(val));
+        parent.appendChild(el); return el;
+      }
+      function textLabel(x,y,text,attrs={}) {
+        const el=mark('text',{x,y,'text-anchor':'middle',...attrs});el.textContent=text;return el;
+      }
+      function updateDetail() {
+        const item=data.find(d=>d.id===selected);
+        root.querySelector('.detail-title').textContent=`${item.name} · ${item.zone} · ${item.phase===1?'首版开放':'后续开放'}`;
+        for(const field of ['people','events','growth']) root.querySelector(`[data-detail="${field}"]`).textContent=item[field];
+        for(const button of labels.querySelectorAll('button')) button.setAttribute('aria-pressed',String(button.dataset.location===selected));
+      }
+      function save() {
+        window.openai?.setWidgetState?.({modelContent:{selectedLocation:selected,locationName:data.find(d=>d.id===selected).name},privateContent:null})?.catch(()=>{});
+      }
+      function draw() {
+        const width=stage.clientWidth;
+        if(width<1) return;
+        const compact=width<590;
+        const height=compact?638:605;
+        stage.style.height=height+'px';
+        svg.setAttribute('viewBox',`0 0 ${width} ${height}`);
+        for(const el of [...svg.children]) if(!['title','desc'].includes(el.tagName)) el.remove();
+        labels.replaceChildren();
+        const X=f=>Math.round(width*f);
+        const roadColor='var(--muted-foreground)';
+        function road(points) {mark('polyline',{points:points.map(([x,y])=>`${x},${y}`).join(' '),fill:'none',stroke:roadColor,'stroke-width':1.5,'stroke-linejoin':'round','stroke-linecap':'round',opacity:.65});}
+        function patch(x,y,w,h,color) {mark('rect',{x,y,width:w,height:h,rx:16,fill:`color-mix(in srgb, ${color} 7%, transparent)`});}
+        if(compact) {
+          patch(8,37,X(.31),177,'var(--blue)');
+          patch(X(.66),37,width-X(.66)-8,177,'var(--blue)');
+          patch(8,270,X(.3),207,'var(--orange)');
+          patch(X(.67),400,width-X(.67)-8,212,'var(--green)');
+          road([[X(.18),85],[X(.18),575],[X(.82),575],[X(.82),85]]);
+          road([[X(.18),250],[X(.82),250]]);
+          road([[X(.18),375],[X(.82),375]]);
+          road([[X(.18),510],[X(.82),510]]);
+          road([[X(.5),250],[X(.5),622]]);
+          textLabel(X(.5),32,'北侧 · 学习与活动');
+          textLabel(X(.5),625,'↓ 通往城市');
+        } else {
+          patch(X(.035),35,X(.43),98,'var(--blue)');
+          patch(X(.55),35,X(.415),98,'var(--blue)');
+          patch(X(.035),207,X(.23),259,'var(--orange)');
+          patch(X(.744),368,X(.22),222,'var(--green)');
+          road([[X(.09),174],[X(.91),174]]);
+          road([[X(.285),174],[X(.285),485],[X(.75),485],[X(.75),174]]);
+          road([[X(.61),174],[X(.61),485]]);
+          road([[X(.285),350],[X(.75),350]]);
+          for(const d of data.filter(d=>['school','sports','library','center'].includes(d.id))) road([[X(d.desktop[0]),90],[X(d.desktop[0]),174]]);
+          road([[X(.15),250],[X(.38),250]]);
+          road([[X(.75),250],[X(.85),250]]);
+          road([[X(.15),420],[X(.285),420]]);
+          road([[X(.75),420],[X(.85),420]]);
+          road([[X(.43),485],[X(.43),585]]);
+          road([[X(.75),485],[X(.85),485],[X(.85),545]]);
+          textLabel(X(.265),22,'学校与运动');
+          textLabel(X(.76),22,'阅读与公共活动');
+          textLabel(X(.15),184,'邻里生活区');
+          textLabel(X(.85),350,'户外生活区');
+          textLabel(X(.43),599,'↓ 通往城市');
+        }
+        for(const d of data) {
+          const pos=compact?d.mobile:d.desktop;
+          const x=X(pos[0]), y=pos[1];
+          const bw=compact?Math.min(92,width*.28):Math.min(146,width*.2);
+          const bh=d.id==='square'?86:70;
+          const fill=d.phase===1?'color-mix(in srgb, var(--viz-series-1) 15%, var(--background))':'var(--muted)';
+          const common={fill,stroke:'var(--border)','stroke-width':1.2};
+          if(d.phase===2) common['stroke-dasharray']='4 3';
+          if(d.id==='square') {
+            mark('ellipse',{cx:x,cy:y,rx:bw/2+4,ry:bh/2,...common});
+          } else if(['park','garden','courtyard','sports'].includes(d.id)) {
+            mark('rect',{x:x-bw/2,y:y-bh/2,width:bw,height:bh,rx:15,...common});
+            if(d.id==='park'||d.id==='garden') {
+              for(const dx of [-.3,0,.3]) mark('circle',{cx:x+bw*dx,cy:y-22,r:5,fill:'var(--green)',opacity:.45});
+            }
+          } else {
+            mark('rect',{x:x-bw/2,y:y-bh/2,width:bw,height:bh,rx:5,...common});
+            mark('rect',{x:x-bw/2+7,y:y-bh/2+7,width:bw-14,height:7,rx:2,fill:'var(--foreground)',opacity:.08});
+          }
+          if(d.phase===1) textLabel(x,y+27,'首版',{opacity:.8});
+          const wrap=document.createElement('div');wrap.className='map-label';wrap.style.left=x+'px';wrap.style.top=(y-3)+'px';
+          const button=document.createElement('button');button.className='btn';button.type='button';button.textContent=d.name;button.dataset.location=d.id;
+          button.setAttribute('aria-label',`${d.name}，${d.phase===1?'首版开放':'后续开放'}，查看人物与事件`);
+          button.addEventListener('click',()=>{selected=d.id;updateDetail();save();});
+          wrap.appendChild(button);labels.appendChild(wrap);
+        }
+        updateDetail();
+      }
+      new ResizeObserver(draw).observe(stage);
+      window.addEventListener('openai:set_globals',event=>{
+        const next=event.detail?.globals?.widgetState?.modelContent?.selectedLocation;
+        if(knownIds.has(next)){selected=next;updateDetail();}
+      });
+      draw();
+    })();
+  </script>
+</div>

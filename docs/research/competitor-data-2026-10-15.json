@@ -1,0 +1,382 @@
+{
+  "research_date": "2026-10-15",
+  "scope": "全球青少年中文学习 App，公开资料桌面研究，非付费实测",
+  "products": [
+    {
+      "id": "nincha",
+      "name": "Ninchanese",
+      "android_installs_floor": 10000,
+      "android_installs_label": "1万+",
+      "android_rating_display": 4.6,
+      "android_reviews_display": "340",
+      "android_updated": "2024-09-23",
+      "ios_rating": null,
+      "ios_rating_count": null,
+      "monthly_usd": 10,
+      "annual_usd": 96,
+      "price_basis": "官网个人 Premium",
+      "price_source": "https://ninchanese.com/pricing/",
+      "ios_status": "官方帮助页称暂无主产品 iOS App，以网页版使用；Yocha 是独立产品",
+      "evidence": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05"
+      ]
+    },
+    {
+      "id": "hello",
+      "name": "HelloChinese",
+      "android_installs_floor": 10000000,
+      "android_installs_label": "1000万+",
+      "android_rating_display": 4.8,
+      "android_reviews_display": "41.2万",
+      "android_updated": "2026-10-02",
+      "ios_rating": 4.87317,
+      "ios_rating_count": 23584,
+      "ios_version": "7.6.5",
+      "ios_version_release": "2026-09-24",
+      "monthly_usd": 11.99,
+      "annual_usd": 69.99,
+      "price_basis": "美国 App Store 描述中的 Premium，不含未核实的更高套餐",
+      "price_source": "https://apps.apple.com/us/app/hellochinese-learn-chinese/id1001507516",
+      "ios_status": "美国商店条目及 Apple Lookup API 已核验",
+      "evidence": [
+        "S07",
+        "S08",
+        "S09",
+        "S21"
+      ]
+    },
+    {
+      "id": "super",
+      "name": "SuperChinese PLUS",
+      "android_installs_floor": 5000000,
+      "android_installs_label": "500万+",
+      "android_rating_display": 4.9,
+      "android_reviews_display": "13.3万",
+      "android_updated": "2026-10-10",
+      "ios_rating": 4.8822,
+      "ios_rating_count": 3820,
+      "ios_version": "6.8.3",
+      "ios_version_release": "2026-09-25",
+      "monthly_usd": 11.99,
+      "annual_usd": 69.99,
+      "price_basis": "官网 PLUS 当前展示价，AI角色扮演为 CHAO 权益",
+      "price_source": "https://superchinese.com/plus",
+      "ios_status": "美国商店条目及 Apple Lookup API 已核验",
+      "evidence": [
+        "S10",
+        "S11",
+        "S12",
+        "S13",
+        "S21"
+      ]
+    },
+    {
+      "id": "chao",
+      "name": "SuperChinese CHAO",
+      "monthly_usd": 24.99,
+      "annual_usd": 129.99,
+      "price_basis": "官网 CHAO 当前展示价，包含 PLUS",
+      "price_source": "https://superchinese.com/chao",
+      "evidence": [
+        "S14"
+      ]
+    },
+    {
+      "id": "boya",
+      "name": "Bóyǎ Family",
+      "android_installs_floor": null,
+      "android_installs_label": "不适用／浏览器产品",
+      "ios_rating": null,
+      "ios_rating_count": null,
+      "monthly_usd": 14.99,
+      "annual_usd": 119,
+      "price_basis": "官网 Family，至多8名儿童；月价来自官网结构化数据",
+      "price_source": "https://boyapp.io/pricing",
+      "ios_status": "官网明确浏览器使用，无需 App 下载；未找到可归属的原生商店条目",
+      "evidence": [
+        "S15",
+        "S16",
+        "S17"
+      ]
+    },
+    {
+      "id": "lucky",
+      "name": "LuckyChinese",
+      "android_installs_floor": 10,
+      "android_installs_label": "10+",
+      "android_rating_display": null,
+      "android_reviews_display": null,
+      "android_updated": "2026-08-01",
+      "ios_rating": null,
+      "ios_rating_count": 0,
+      "ios_version": "1.3.0",
+      "ios_version_release": "2026-09-09",
+      "monthly_usd": 11.9,
+      "annual_usd": 72,
+      "promo_monthly_usd": 7.9,
+      "promo_annual_usd": 39.9,
+      "price_basis": "美国 App Store 内购 SKU，价格与适用资格须购买页确认",
+      "price_source": "https://apps.apple.com/us/app/luckychinese-play-learn/id6757125924",
+      "ios_status": "美国 Lookup 返回有效条目，0条评分不代表质量为0；iOS与Android开发者展示名称不同，iOS页版权为Haelio Studio",
+      "evidence": [
+        "S18",
+        "S19",
+        "S21"
+      ]
+    }
+  ],
+  "data_notes": [
+    "Google Play 为英文公开条目顶部展示快照，评分和评价数量可能因地区、设备、缓存变化。网页抓取可能滞后于查询日。",
+    "Google Play 安装量是累计档位下限，不是精确安装量、活跃用户、付费用户或青少年用户数。缺失值使用 null。",
+    "iOS 数字来自美国区 Apple Lookup API 本次返回；商店页面会显示四舍五入数字，且接口可能缓存。",
+    "网页版与原生App使用人数不可直接比较。价格均为美元展示价，未统一税费、渠道与功能权益。",
+    "没有经过统计抽样的用户访谈、留存、营收、转化或AI准确率数据；报告中的目标值与成本为明确标注的试验假设。"
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Ninchanese 官网与主产品介绍",
+      "url": "https://ninchanese.com/",
+      "note": "角色、当前首页、HSK课程及独立 Yocha 的说明；官网图片路径为较早素材。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S02",
+      "title": "Ninchanese 价格与权益",
+      "url": "https://ninchanese.com/pricing/",
+      "note": "个人 Premium 价格、六个世界、课程与复习说明；不是效果研究。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S03",
+      "title": "Ninchanese iOS 官方帮助",
+      "url": "https://ninchanese.com/help/ninchanese-on-ios/",
+      "note": "明确暂无主产品 iOS App，以及语音识别的浏览器与系统限制；帮助文档可能滞后，仍需实机验证。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S04",
+      "title": "Ninchanese Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.ninchanese.app2&hl=en",
+      "note": "累计下载档位、评分、公开更新时间及产品描述；评价数约数可能随地区及缓存变化。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S05",
+      "title": "Ninchanese 学习方法",
+      "url": "https://ninchanese.com/method/",
+      "note": "词汇、造句、语音反馈、故事、游戏化与 HSK 范围。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S06",
+      "title": "Ninchanese GPT 语法功能公告",
+      "url": "https://ninchanese.com/blog/2023/03/29/ai-chinese-grammar/",
+      "note": "发布于 2023-03-29；证明曾公布该能力，不证明当前全部套餐与设备体验。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S07",
+      "title": "HelloChinese 官方英文主页",
+      "url": "https://www.hellochinese.cc/",
+      "note": "内容、语音识别、SRS、母语者视频；2000万用户为厂商自述。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S08",
+      "title": "HelloChinese 美国 App Store",
+      "url": "https://apps.apple.com/us/app/hellochinese-learn-chinese/id1001507516",
+      "note": "Premium 描述价格、功能、主课更新记录、开发者宣传截图；截图版权归权利人。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S09",
+      "title": "HelloChinese Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.hellochinese&hl=en",
+      "note": "下载档位、顶部评分与评价数、Android 更新日；非 MAU。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S10",
+      "title": "SuperChinese Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.superchinese&hl=en",
+      "note": "下载档位、顶部评分与评价数、Android 更新日；商店课程级数与官网口径不同。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S11",
+      "title": "SuperChinese 美国 App Store",
+      "url": "https://apps.apple.com/us/app/superchinese-learn-chinese/id1462500984",
+      "note": "宣传截图、文化卡牌、星尘、SSR 与 47 张西游卡的版本记录。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S12",
+      "title": "SuperChinese 官方 FAQ",
+      "url": "https://superchinese.com/faq.html",
+      "note": "主课8级、HSK1–5、Discover词汇等级、发音反馈、离线、语言支持；1200万学习者为厂商自述。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S13",
+      "title": "SuperChinese PLUS 定价",
+      "url": "https://superchinese.com/plus",
+      "note": "当前网站展示月、年、终身价格与 PLUS/CHAO 权益；促销可变。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S14",
+      "title": "SuperChinese CHAO 定价与功能",
+      "url": "https://superchinese.com/chao",
+      "note": "当前网站展示月年价格、AI角色扮演与语法表达反馈；没有模型准确率验证。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S15",
+      "title": "Bóyǎ 官方网站",
+      "url": "https://boyapp.io/",
+      "note": "6–13岁、浏览器、Lin、每日任务、对决、家庭反馈与图片；部分内容口径不一。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S16",
+      "title": "Bóyǎ 定价页",
+      "url": "https://boyapp.io/pricing",
+      "note": "Family年价、8儿童、学校询价与试用；月价来自该页公开结构化 Product 数据。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S17",
+      "title": "Bóyǎ Safety and Privacy",
+      "url": "https://boyapp.io/trust/safety",
+      "note": "厂商对交互范围、导师限制、家长账户和数据处理的声明；不代表独立审计。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S18",
+      "title": "LuckyChinese Google Play",
+      "url": "https://play.google.com/store/apps/details?id=com.remi.app.prod&hl=en",
+      "note": "小游戏、AI、奖励、职业词汇定位、10+下载与更新时间；数据安全字段为开发者申报。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S19",
+      "title": "LuckyChinese 美国 App Store",
+      "url": "https://apps.apple.com/us/app/luckychinese-play-learn/id6757125924",
+      "note": "内购SKU价格、宣传截图、iOS卖家与 Haelio Studio 版权信息；价格适用资格待购买页核验。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S20",
+      "title": "Ninchanese Android 官方迁移说明",
+      "url": "https://app.ninchanese.com/page/newandroidapp",
+      "note": "解释新包 com.ninchanese.app2 与旧包更替；不能把单个新包累计安装当作品牌全部使用人数。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S21",
+      "title": "Apple 官方美国区 Lookup 接口",
+      "url": "https://itunes.apple.com/lookup?id=1001507516,1462500984,6757125924&country=us",
+      "note": "本次接口返回的精确评分数、平均分、版本、发布时间与官方截图地址；可能缓存。原始响应留存于本地研究材料。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S22",
+      "title": "Duolingo 2025 Language Report",
+      "url": "https://blog.duolingo.com/2025-duolingo-language-report/",
+      "note": "中文第8与部分市场增长信号；统计期2024-10-01至2025-09-30；排除13岁以下，平台样本不等于全球市场。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S23",
+      "title": "Duolingo 课程与功能更新",
+      "url": "https://blog.duolingo.com/duolingo-updates/",
+      "note": "官方称中文等课程持续调整；不能用单一用户评价判定AI准确率。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S24",
+      "title": "Du Chinese 官方网站",
+      "url": "https://duchinese.net/",
+      "note": "分级阅读、故事、真人音频、点词释义与学习工具。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S25",
+      "title": "Pleco 官方网站",
+      "url": "https://www.pleco.com/",
+      "note": "词典、OCR、手写查词、文档阅读与卡片工作流。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S26",
+      "title": "Skritter 官方网站",
+      "url": "https://skritter.com/",
+      "note": "笔画级反馈、识字书写与针对性复习；未采用其记忆效果宣传作为证据。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S27",
+      "title": "FTC COPPA 常见问题",
+      "url": "https://www.ftc.gov/business-guidance/resources/complying-coppa-frequently-asked-questions",
+      "note": "美国13岁以下信息处理与家长同意的一般规则；产品具体适用范围需进一步评估。",
+      "accessed_date": "2026-10-15"
+    },
+    {
+      "id": "S28",
+      "title": "ICO 儿童设计准则",
+      "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/age-appropriate-design-a-code-of-practice-for-online-services/code-standards/",
+      "note": "儿童最佳利益、高隐私默认、数据最小化、透明及适龄设计要求。",
+      "accessed_date": "2026-10-15"
+    }
+  ],
+  "image_credits": [
+    {
+      "files": [
+        "nincha-story.png",
+        "nincha-grammar.png",
+        "nincha-speaking.png"
+      ],
+      "source": "https://ninchanese.com/",
+      "kind": "官方历史界面素材"
+    },
+    {
+      "files": [
+        "hello-1.jpg",
+        "hello-2.jpg",
+        "hello-3.jpg"
+      ],
+      "source": "https://apps.apple.com/us/app/hellochinese-learn-chinese/id1001507516",
+      "kind": "官方商店宣传截图"
+    },
+    {
+      "files": [
+        "super-1.jpg",
+        "super-2.jpg",
+        "super-3.jpg"
+      ],
+      "source": "https://apps.apple.com/us/app/superchinese-learn-chinese/id1462500984",
+      "kind": "官方商店宣传截图"
+    },
+    {
+      "files": [
+        "lucky-1.jpg",
+        "lucky-2.jpg",
+        "lucky-3.jpg"
+      ],
+      "source": "https://apps.apple.com/us/app/luckychinese-play-learn/id6757125924",
+      "kind": "官方商店宣传截图"
+    },
+    {
+      "files": [
+        "boya-hero.jpg"
+      ],
+      "source": "https://boyapp.io/landing-hero.jpg",
+      "kind": "官方品牌插画 非产品截图"
+    }
+  ]
+}

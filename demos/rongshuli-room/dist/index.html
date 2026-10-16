@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f0e5">
+  <meta name="description" content="走进榕树里的活动室，认识新朋友，找回蓝丝带，一起做一块属于大家的集市招牌。">
+  <title>榕树里 · 第一次一起做招牌</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='14' fill='%23506d58'/%3E%3Cpath d='M24 8C8 14 9 28 24 33C39 27 40 14 24 8Z' fill='%23f8e9b9'/%3E%3Cpath d='M24 19V40' stroke='%23f8e9b9' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="./" aria-label="榕树里首页"><span class="brand-leaf" aria-hidden="true">❧</span><span>榕树里<small>一个慢慢熟悉的地方</small></span></a>
+      <div class="location"><span class="location-dot"></span>社区活动室 <span class="location-divider">/</span> 一个晴朗的下午</div>
+      <nav class="top-actions" aria-label="游戏工具">
+        <button id="words-button" class="tool-button" type="button"><span aria-hidden="true">▤</span> 词语本<span id="word-count" class="count">0</span></button>
+        <button id="sound-button" class="tool-button icon-tool" type="button" aria-pressed="false" aria-label="开启声音">♪<span class="sound-label">声音关</span></button>
+        <button id="help-button" class="tool-button" type="button" aria-label="查看怎么玩">?</button>
+      </nav>
+    </header>
+    <main>
+      <section class="game-frame" aria-label="榕树里互动活动室">
+        <div id="room" class="room" aria-label="活动室。点击地面移动，点击人物和物品互动。">
+          <img id="room-art" class="room-art" src="assets/activity-room.png" alt="阳光照进木地板的活动室。小雨举着招牌，阿柏在做小摊位，阿乐整理材料，林老师布置照片，小猫坐在窗边。" draggable="false">
+          <div class="scene-light" aria-hidden="true"></div>
+          <div class="room-hud hidden-until-start">
+            <div class="chapter-eyebrow">第一天 · 新朋友</div>
+            <h1>第一次一起做招牌</h1>
+            <p id="objective"></p>
+            <div class="quest-steps" aria-label="任务进度"><span data-step="meet">相识</span><i></i><span data-step="materials">准备</span><i></i><span data-step="make">一起完成</span></div>
+          </div>
+          <div class="scene-caption hidden-until-start"><span class="live-dot"></span> 集市筹备中</div>
+          <button class="hotspot person hidden-until-start" data-target="yu" style="--x:18.6%;--y:27%" type="button" aria-label="和小雨说话"><span class="hotspot-dot">…</span><span>小雨</span></button>
+          <button class="hotspot person hidden-until-start" data-target="bo" style="--x:40.5%;--y:18.5%" type="button" aria-label="和阿柏说话"><span class="hotspot-dot">…</span><span>阿柏</span></button>
+          <button class="hotspot person hidden-until-start" data-target="ale" style="--x:70.4%;--y:49%" type="button" aria-label="和阿乐说话"><span class="hotspot-dot">…</span><span>阿乐</span></button>
+          <button class="hotspot person hidden-until-start" data-target="teacher" style="--x:85%;--y:6%" type="button" aria-label="和林老师说话"><span class="hotspot-dot">…</span><span>林老师</span></button>
+          <button id="cat-hotspot" class="hotspot item hidden-until-start" data-target="cat" style="--x:66.3%;--y:34.5%" type="button" aria-label="查看小橘和蓝丝带"><span class="hotspot-dot">✦</span><span>小橘</span></button>
+          <button class="hotspot item hidden-until-start" data-target="board" style="--x:92%;--y:40%" type="button" aria-label="看看社区照片墙"><span class="hotspot-dot">✦</span><span>照片墙</span></button>
+          <div id="ribbon-object" class="ribbon-object hidden-until-start" aria-hidden="true"><i></i><i></i><b></b><b></b></div>
+          <div id="player" class="player hidden-until-start" aria-label="主角小禾"><div class="player-shadow"></div><img src="assets/player.png" alt="小禾" draggable="false"><span class="player-name">小禾 · 你</span></div>
+          <div id="walk-marker" class="walk-marker" aria-hidden="true"></div>
+          <div id="finished-sign" class="finished-sign" aria-hidden="true"></div>
+          <div class="scene-bottom hidden-until-start">
+            <button id="bag-button" class="bag-button" type="button"><span class="bag-icon" aria-hidden="true">♧</span><span>小背包</span><span id="bag-count">0 / 2</span></button>
+            <button id="memory-button" class="memory-button" type="button" aria-label="查看社区回忆"><span aria-hidden="true">▧</span> 社区回忆</button>
+          </div>
+          <div id="toast" class="toast" role="status" aria-live="polite"></div>
+          <div id="intro" class="intro">
+            <div class="intro-copy"><span class="intro-kicker">欢迎来到榕树里</span><h2>推开门，<br>故事就开始了。</h2><p>新邻居们正忙着准备周末集市。<br>听说，还差一点小小的帮助。</p><button id="start-button" class="primary-button" type="button">走进活动室 <span aria-hidden="true">↗</span></button><span id="resume-note" class="intro-note">一段可以慢慢玩的社区小故事</span></div>
+          </div>
+          <div id="celebration" class="celebration" aria-hidden="true"></div>
+        </div>
+        <div class="mobile-interactions" aria-label="选择互动对象"><button data-target="yu" type="button">小雨</button><button data-target="bo" type="button">阿柏</button><button data-target="ale" type="button">阿乐</button><button data-target="teacher" type="button">林老师</button><button data-target="cat" type="button">小橘</button><button data-target="board" type="button">照片墙</button><button id="mobile-bag-button" type="button">背包</button></div>
+        <div class="game-footer"><span><span class="footer-star">✧</span> 点一点人物，看看这里发生了什么</span><span class="desktop-tip">点击地板走动 <kbd>W A S D</kbd> 移动 <kbd>E</kbd> 互动</span><span class="mobile-tip">横屏体验更舒适</span></div>
+      </section>
+      <section id="dialogue" class="dialogue" aria-label="人物对话" hidden>
+        <div class="dialogue-top"><div><span id="speaker-name" class="speaker-name"></span><span id="speaker-role" class="speaker-role"></span></div><div class="dialogue-tools"><button id="translation-button" type="button" aria-pressed="false">拼音 / English</button><button id="speak-button" type="button" aria-label="听一遍这句话">♪ 听一遍</button><button id="close-dialogue" type="button" aria-label="关闭对话">×</button></div></div>
+        <p id="dialogue-text" class="dialogue-text"></p><p id="dialogue-pinyin" class="dialogue-pinyin" hidden></p><p id="dialogue-english" class="dialogue-english" hidden></p>
+        <div id="dialogue-choices" class="dialogue-choices"></div>
+        <form id="chat-form" class="chat-form"><label class="sr-only" for="chat-input">试着用中文说一句</label><input id="chat-input" maxlength="100" autocomplete="off" placeholder="也可以试着用中文问一句…"><button type="submit" aria-label="发送中文句子">说一句 ↗</button></form>
+      </section>
+      <div class="below-caption"><span>榕树里 · 房间体验 Demo</span><span>进度自动保存在当前浏览器</span></div>
+    </main>
+  </div>
+  <dialog id="panel" class="panel"><div class="panel-header"><div><span id="panel-eyebrow" class="eyebrow"></span><h2 id="panel-title"></h2></div><button id="close-panel" class="close-button" type="button" aria-label="关闭面板">×</button></div><div id="panel-content"></div></dialog>
+  <dialog id="designer" class="designer"><div class="panel-header"><div><span class="eyebrow">和小雨一起完成</span><h2>我们的第一块招牌</h2></div><button id="close-designer" class="close-button" type="button" aria-label="暂时离开招牌制作">×</button></div><div class="designer-layout"><div id="sign-preview" class="sign-preview" aria-label="招牌预览"></div><form id="design-form"><fieldset><legend>选一个喜欢的颜色</legend><div class="color-options"><label><input type="radio" name="color" value="mint" checked><span style="--paint:#b7d4bd"></span>薄荷绿</label><label><input type="radio" name="color" value="peach"><span style="--paint:#edc3ac"></span>蜜桃粉</label><label><input type="radio" name="color" value="sun"><span style="--paint:#ead28b"></span>暖阳黄</label></div></fieldset><fieldset><legend>画上什么图案？</legend><div class="motif-options"><label><input type="radio" name="motif" value="cat" checked><span>小猫</span></label><label><input type="radio" name="motif" value="flower"><span>花朵</span></label><label><input type="radio" name="motif" value="star"><span>星星</span></label></div></fieldset><label class="title-select-label" for="sign-title">想对来逛集市的人说</label><select id="sign-title" name="title"><option>欢迎来玩</option><option>一起逛集市</option><option>我们的周末</option></select><button class="primary-button finish-button" type="submit">系上蓝丝带，完成招牌 <span aria-hidden="true">↗</span></button></form></div></dialog>
+  <script type="module" src="game.js"></script>
+</body>
+</html>

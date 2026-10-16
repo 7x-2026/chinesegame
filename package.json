@@ -1,0 +1,16 @@
+{
+  "name": "chinesegame",
+  "version": "0.1.0",
+  "private": true,
+  "description": "面向外国儿童与青少年的社区生活式中文学习游戏开发起始项目",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "node demos/rongshuli-room/server.mjs",
+    "test": "node --test demos/rongshuli-room/tests/state.test.mjs",
+    "test:e2e": "node demos/rongshuli-room/tests/browser-check.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}
